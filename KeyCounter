@@ -1,0 +1,41 @@
+<?php
+
+class KeyCounter {
+
+    protected $limit;
+    protected $array_key;
+    protected $key_counts = array();
+
+    public function __construct($array_key, $limit = 0) {
+        $this->array_key = (string) $array_key;
+        $this->limit     = intval($limit);
+    }
+
+    public function checkKey(array $array) {
+        if (array_key_exists($this->array_key, $array)) {
+            $key_value = $array[$this->array_key];
+            if (!array_key_exists($key_value, $this->key_counts)) {
+                $this->key_counts[$key_value] = 0;
+            }
+
+            if ($this->limit > 0 && $this->key_counts[$key_value] >= $this->limit) {
+                return false;
+            } else {
+                $this->key_counts[$key_value]++;
+                return true;
+            }
+        }
+    }
+
+    public function getKeyCount($key_value) {
+        if (!array_key_exists($key_value, $$this->key_counts)) {
+            return false;
+        }
+        return $this->key_counts[$key_value];
+    }
+
+    public function getKeyCounts() {
+        return $this->key_counts;
+    }
+
+}
